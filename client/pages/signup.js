@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from "react";
 import { Button, Form, Input } from "antd";
 
+export const useInput = (initValue = null) => {
+  const [value, setter] = useState(initValue);
+  const handler = useCallback(e => {
+    setter(e.target.value);
+  }, []);
+  return [value, handler];
+};
+
 const Signup = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-
-  const useInput = (initValue = null) => {
-    const [value, setter] = useState(initValue);
-    const handler = useCallback(e => {
-      setter(e.target.value);
-    }, []);
-    return [value, handler];
-  };
 
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
@@ -22,11 +22,6 @@ const Signup = () => {
       if (password !== passwordCheck) {
         return setPasswordError(true);
       }
-      console.log({
-        id,
-        password,
-        passwordCheck
-      });
     },
     [password, passwordCheck]
   );
