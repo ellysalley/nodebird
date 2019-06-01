@@ -36,7 +36,7 @@ const LoginForm = () => {
         required={true}
       />
     </div>
-    <div>
+    <div style={{ marginTop: '10px'}}>
       <Button type="primary" htmlType="submit" loading={false}>
         Sign In
       </Button>
