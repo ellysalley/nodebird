@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <div>
       {dummy.isLoggedIn && <PostForm />}
-      {dummy.mainPosts.map(c => {
+      {dummy.mainPosts.map((c) => {
         return (
           <PostCard key={c} />
         );
