@@ -3,10 +3,10 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { Menu, Input, Row, Col } from "antd";
 import LoginForm from "./LoginForm";
-import Profile from "./UserProfile";
+import UserProfile from "./UserProfile";
 
 const dummy = {
-  userid: "elly",
+  username: 'ellysalley',
   post: [],
   followings: [],
   followers: [],
@@ -34,7 +34,7 @@ const AppLayout = ({ children }) => {
       <Row gutter={8}>
         <Col xs={24} md={6}>
           {dummy.isLoggedIn ? 
-            <Profile />
+            <UserProfile />
            : 
             <LoginForm />
           }
@@ -51,7 +51,7 @@ const AppLayout = ({ children }) => {
 };
 
 AppLayout.propTypes = {
-  children: PropTypes.elementType
+  children: PropTypes.node
 };
 
 export default AppLayout;

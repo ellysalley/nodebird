@@ -6,9 +6,11 @@ const dummy = {
   imagePaths: [],
   mainPosts: [{
     User: {
-      id: 'ellysalley', 
+      id: 1,
+      username: 'ellysalley',
     },
-    content: 'first tweet'
+    content: 'first tweet',
+    img: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
   }]
 };
 
