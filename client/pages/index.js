@@ -8,11 +8,11 @@ const dummy = {
   mainPosts: [{
     User: {
       id: 1,
-      username: 'ellysalley',
+      username: 'elly',
     },
-    content: 'first tweet',
+    content: '첫 번째 게시글',
     img: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-  }]
+  }],
 };
 
 const Home = () => {

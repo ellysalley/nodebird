@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Icon, Button, Avatar } from "antd";
 import PropTypes from "prop-types";
 
-const PostCard = ( post ) => {
+const PostCard = ({ post }) => {
   return (
     <Card
       key={+post.createAt}
