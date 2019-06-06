@@ -34,11 +34,8 @@ export default withRedux((initialState, options) => {
   const middlewares = [];
   const enhancer = compose(
     applyMiddleware(...middlewares),
-    typeof window !== "undefined" &&
-      window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
-      ? window.__REDUX_DEVTOOLS_EXTENSION__()
-      : f => f
+    !options.isServer && window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
   );
-  const store = createStore(reducer, initialState);
+  const store = createStore(reducer, initialState, enhancer);
   return store;
 })(NodeBird);
