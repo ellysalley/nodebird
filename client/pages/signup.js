@@ -1,5 +1,16 @@
 import React, { useState, useCallback } from "react";
 import { Button, Form, Input } from "antd";
+import PropTypes from "prop-types";
+import { signUpAction } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+
+const TextInput = ({ value }) => (
+  <div>{value}</div>
+);
+
+TextInput.propTypes = {
+  value: PropTypes.string, 
+};
 
 export const useInput = (initValue = null) => {
   const [value, setter] = useState(initValue);
@@ -15,6 +26,7 @@ const Signup = () => {
 
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
+  const dispatch = useDispatch();
 
   const onSubmit = useCallback(
     e => {
@@ -22,6 +34,7 @@ const Signup = () => {
       if (password !== passwordCheck) {
         return setPasswordError(true);
       }
+      dispatchEvent(signUpAction({id, password}));
     },
     [password, passwordCheck]
   );

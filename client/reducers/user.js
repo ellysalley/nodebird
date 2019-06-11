@@ -11,9 +11,17 @@ const initialState = {
   user: null,
 };
 
+export const SIGN_UP = "SIGN_UP";
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 
+export const signUpAction = (data) => {
+  return {
+    type: SIGN_UP,
+    data: data,
+  }
+
+}
 export const loginAction = {
   type: LOG_IN, 
   data: {
@@ -38,6 +46,13 @@ export default (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         user: null,
+      }
+    }
+
+    case SIGN_UP: {
+      return {
+        ...state,
+        signUpData: action.data, 
       }
     }
     default: {
