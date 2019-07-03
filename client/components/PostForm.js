@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Button, Form, Input } from "antd";
-import { useSelector, useDispatch, useEffect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ADD_POSTS_REQUEST } from "../reducers/post";
 
 const PostForm = () => {

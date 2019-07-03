@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import PropTypes from "prop-types";
-import { signUpAction } from "../reducers/user";
+import { SIGN_UP_REQUEST } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
+import Router from "next/router";
 
 const TextInput = ({ value }) => (
   <div>{value}</div>
@@ -27,20 +28,32 @@ const Signup = () => {
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
   const dispatch = useDispatch();
+  const { isSigningUp, me } = useSelector(state => state.user);
 
-  const onSubmit = useCallback(
-    e => {
+  useEffect(() => {
+    if (me) {
+      alert('logged in, go to main page.');
+      Router.push('/');
+    }
+  }, [me && me.id]);
+
+  const onSubmit = useCallback((e) => {
       e.preventDefault();
       if (password !== passwordCheck) {
         return setPasswordError(true);
       }
-      dispatchEvent(signUpAction({id, password}));
+      return dispatch({
+        type: SIGN_UP_REQUEST,
+        data: {
+          id, 
+          password
+        },
+      });
     },
     [password, passwordCheck]
   );
 
-  const onChangePasswordCheck = useCallback(
-    e => {
+  const onChangePasswordCheck = useCallback((e) => {
       setPasswordError(e.target.value !== password);
       setPasswordCheck(e.target.value);
     },
@@ -86,7 +99,7 @@ const Signup = () => {
           )}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isSigningUp}>
             Sign Up
           </Button>
         </div>

@@ -5,7 +5,7 @@ export const initialState = {
       username: 'elly',
     },
     content: '첫 번째 게시글',
-    img: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
+    img: 'https://lh3.googleusercontent.com/X9Z0Ee95h7iRN4HxOu9OJc674BKRnl63OH4KfQfKT60iyX0CA7Z6Cv37mHrFtjHhOltLb4DeOTJQsuJkgLlrnluopug-2hqn5bJVyAKhsZq659l9ZW_P5WID-OOHvP3t7UXFQlM6xOCsl_KKOZln6YxB9hCpJRSa2T71_rgii6mbgZNo-d3o-uU7VxBr37JuurHMedUdH9XRdxOmet_oMnnxjOD-Ej4u7a76iTe46qJzCF2J57Qy87gM0tFvViQt7maUwhj72adrLcjpKqmPLXxWUIPX16H9OMfHs3y2zCFV1DdGoMsdQ6TyjyUJ6b6fwmE77Bc-HoI_yEjCWLXx1zydPplmu9-2ioHDAmqem_w_lmipf05sQqARkZU7lKwwbDaGwOCDSW8U8IkH0fnSIGIslG5ZJjicQabevDAnxnjMxDHsHhJ9YPDB0ZR1G4F6m5IRgLvLLq8riEKW94iaSa8yHa_8UAcEaSjWxYUS6aPGNs8XQmbQyDuaPb-5plXdXh2Yh5pbS7zf9ofAWS93JJ32vyv1Mp_tCGAV7kSx9fJ9IJxOKQJP_3T3194daTzceczfEbsIZwGTYErI1RB-w_2YeKHHAELWmvBv0TFwbcIHIMPmnD3WddCX-fP42Lv2_rREXvTPyQstBD8Q8kf_Qpr1zQt-g1w=w893-h670-no',
     comments: [],
   }],
   imagePath: [],
