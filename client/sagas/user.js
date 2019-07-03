@@ -20,10 +20,22 @@ function* login() {
 }
 
 function* watchLogin() {
-  yield takeLatest(LOG_IN, login)
+  while (true) {
+    yield take(LOG_IN);
+    yield delay(2000);
+    yield put({
+      type: LOG_IN_SUCCESS,
+    });
+  }
 }
+
+function* watchSignUp() {
+
+}
+
 export default function* userSaga() {
   yield all([
-    fork(watchLogin),
+    watchLogin(),
+    watchSignUp(),
   ]);
 }
