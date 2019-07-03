@@ -13,7 +13,7 @@ function* login() {
        type: LOG_IN_SUCCESS,
     });
   } catch (e) {
-    console.error(e);
+    console.error(e); 
     yield put({
       type: LOG_IN_FAILURE,
     });

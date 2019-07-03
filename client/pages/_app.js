@@ -5,8 +5,8 @@ import withRedux from "next-redux-wrapper";
 import AppLayout from "../components/AppLayout";
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import createSagaMiddleware from "redux-saga";
 import reducer from "../reducers";
-import sagaMiddleware from "../sagas/middleware";
 import rootSaga from "../sagas";
 
 const NodeBird = ({ Component, store }) => {

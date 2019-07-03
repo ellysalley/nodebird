@@ -1,16 +1,38 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Button, Form, Input } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch, useEffect } from "react-redux";
+import { ADD_POSTS_REQUEST } from "../reducers/post";
 
 const PostForm = () => {
-  const { imagePaths } = useSelector(state => state.post)
+  const dispatch = useDispatch();
+  const [text, setText] = useState('');
+  const { imagePaths, isAddingPost, postAdded } = useSelector(state => state.post)
+
+  useEffect(() => {
+    setText('')
+  }, [postAdded === true])
+
+  const onSubmitForm = useCallback(() => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_POSTS_REQUEST, 
+      data: {
+        text, 
+      }
+    })
+  }, []);
+
+  const onChangeText = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
+
   return (
-    <Form style={{ margin: "10px 0 20px" }} encType="multipart/form-data">
-      <Input.TextArea maxLength={140} placeholder="What's happening?" />
+    <Form style={{ margin: "10px 0 20px" }} encType="multipart/form-data" onSubmit={onSubmitForm}>
+      <Input.TextArea maxLength={140} placeholder="What's happening?" value={text} onChange={onChangeText} />
       <div>
         <input type="file" multiple hidden />
         <Button>Image Upload</Button>
-        <Button type="primary" style={{ float: "right" }} htmlType="submit">
+        <Button type="primary" style={{ float: "right" }} htmlType="submit" isLoading={isAddingPost}>
           Twit
         </Button>
       </div>
