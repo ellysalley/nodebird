@@ -2,6 +2,9 @@
   "name": "nodebird-server",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
   "author": "ellysalley",
   "license": "MIT",
   "dependencies": {
