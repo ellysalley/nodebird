@@ -15,7 +15,7 @@ TextInput.propTypes = {
 
 export const useInput = (initValue = null) => {
   const [value, setter] = useState(initValue);
-  const handler = useCallback(e => {
+  const handler = useCallback((e) => {
     setter(e.target.value);
   }, []);
   return [value, handler];

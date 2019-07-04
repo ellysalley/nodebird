@@ -6,8 +6,8 @@ import { useInput } from "../pages/signup";
 import { LOG_IN_REQUEST } from "../reducers/user";
 
 const LoginForm = () => {
-  const [id, onChangeId] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const [id, onChangeId] = useInput('');
+  const [password, onChangePassword] = useInput('');
   const { isLoggingIn } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
@@ -22,7 +22,7 @@ const LoginForm = () => {
   }, [id, password]);
 
   return (
-    <Form>
+    <Form onSubmit={onSubmitForm} style={{ padding: '10px' }}>
     <div>
       <label htmlFor="user-id">id</label>
       <br />

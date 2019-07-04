@@ -5,6 +5,6 @@ import post from './post';
 const rootReducer = combineReducers({
   user,
   post,
-})
+});
 
 export default rootReducer;

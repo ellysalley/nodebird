@@ -10,7 +10,7 @@ const PostForm = () => {
 
   useEffect(() => {
     setText('')
-  }, [postAdded === true])
+  }, [postAdded === true]);
 
   const onSubmitForm = useCallback(() => {
     e.preventDefault();
@@ -37,11 +37,10 @@ const PostForm = () => {
         </Button>
       </div>
       <div>
-        {imagePaths.map((v) => {
-          return (
+        {imagePaths.map((v) => (
             <div key={v} style={{ display: "inline-block" }}>
               <img
-                src={"https://localhost:3065/" + v}
+                src={`https://localhost:3065/${v}`}
                 style={{ width: "200px" }}
                 alt={v}
               />
@@ -49,8 +48,7 @@ const PostForm = () => {
                 <Button>Delete</Button>
               </div>
             </div>
-          );
-        })}
+        ))}
       </div>
     </Form>
   );
