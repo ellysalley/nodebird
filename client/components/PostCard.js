@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Card, Icon, Button, Avatar, Input, List } from "antd";
+import { Card, Icon, Button, Avatar, Input, List, Form } from "antd";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_COMMENT_REQUEST } from "../reducers/post";
@@ -12,7 +12,7 @@ const PostCard = ({ post }) => {
   const dispatch = useDispatch();
 
   const onToggleComment = useCallback(() => {
-    setCommentFormOpend(prev => !prev);
+    setCommentFormOpened(prev => !prev);
   }, []);
 
   const onSubmitComment = useCallback((e) => {
@@ -35,7 +35,7 @@ const PostCard = ({ post }) => {
   const onChangeCommentText = useCallback((e) => {
     setCommentText(e.target.value);
   }, []);
-  
+
   return (
     <div>
     <Card
