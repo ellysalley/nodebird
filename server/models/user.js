@@ -10,17 +10,20 @@ module.exports = (sequelize, DataTypes) => {
       unique: true, 
     },
     password: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(100),
       allowNull: false, 
     },
   }, {
     charset: 'utf8',
-    collate: 'utf8-_general_ci', // for Korean 
+    collate: 'utf8_general_ci', // for Korean 
   });
 
   User.associate = (db) => {
-    db.User.hasMany(db.Post);
+    db.User.hasMany(db.Post, { as: 'Posts' });
     db.User.hasMany(db.Comment);
+    db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked'});
+    db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers' });
+    db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings' });
   };
 
   return User;
