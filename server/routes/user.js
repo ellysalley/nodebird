@@ -6,7 +6,12 @@ const db = require('../models');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-
+  if (!req.user) {
+    return res.status(401).send('Login required')
+  }
+  const user = Object.assign({}, req.user.toJSON());
+  delete user.password;
+  return res.json(user);
 });
 
 // signup /api/user 
@@ -18,7 +23,7 @@ router.post('/', async (req, res, next) => {
       },
     });
     if (exUser) {
-      return res.status(403).send('already taken id');
+      return res.status(403).send('ID is already taken');
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const newUser = await db.User.create({
@@ -30,8 +35,10 @@ router.post('/', async (req, res, next) => {
     return res.status(200).json(newUser);
   } catch (e) {
     console.error(e);
+    return next(e);
   }
 });
+
 router.get('/:id', (req, res) => {
 
 });
@@ -39,7 +46,7 @@ router.post('/logout', (req, res) => {
 
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       console.error(err);
@@ -52,10 +59,11 @@ router.post('/login', (req, res) => {
       if (loginErr) {
         return next(loginErr);
       }
-      const filteredUser = Object.assign({}, user);
+      const filteredUser = Object.assign({}, user.toJSON());
+      delete filteredUser.password;
       return res.json(filteredUser);
     });
-  });
+  })(req, res, next);
 });
 
 router.get('/:id/follow', (req, res) => {

@@ -1,11 +1,3 @@
-const dummyUser = {
-  username: 'elly',
-  Post: [],
-  Followings: [],
-  Followers: [],
-  id: 1,
-};
-
 export const initialState = {
   isLoggedIn: false, 
   isLoggingOut: false,
@@ -68,7 +60,7 @@ export default (state = initialState, action) => {
         ...state, 
         isLoggingIn: false,
         isLoggedIn: true,
-        me: dummyUser,
+        me: action.data,
         isLoading: false,
       }
     }

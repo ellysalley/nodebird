@@ -12,7 +12,7 @@ const PostForm = () => {
     setText('')
   }, [postAdded === true]);
 
-  const onSubmitForm = useCallback(() => {
+  const onSubmitForm = useCallback((e) => {
     e.preventDefault();
     dispatch({
       type: ADD_POSTS_REQUEST, 
@@ -32,7 +32,7 @@ const PostForm = () => {
       <div>
         <input type="file" multiple hidden />
         <Button>Image Upload</Button>
-        <Button type="primary" style={{ float: "right" }} htmlType="submit" isLoading={isAddingPost}>
+        <Button type="primary" style={{ float: "right" }} htmlType="submit" loading={isAddingPost}>
           Twit
         </Button>
       </div>
@@ -40,7 +40,7 @@ const PostForm = () => {
         {imagePaths.map((v) => (
             <div key={v} style={{ display: "inline-block" }}>
               <img
-                src={`https://localhost:3065/${v}`}
+                src={`https://localhost:8080/${v}`}
                 style={{ width: "200px" }}
                 alt={v}
               />
