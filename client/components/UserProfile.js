@@ -15,11 +15,7 @@ const UserProfile = () => {
 
   return (
     <Card
-      actions={[
-        <div key="twit">Twit<br />{me.Post.length}</div>,
-        <div key="following">Followings<br />{me.Followings.length}</div>,
-        <div key="follower">Followers<br />{me.Followers.length}</div>
-      ]}
+      actions={[]}
     >
       <Card.Meta
         avatar={<Avatar>{me.username[0]}</Avatar>}

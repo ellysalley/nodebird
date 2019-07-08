@@ -43,7 +43,9 @@ router.get('/:id', (req, res) => {
 
 });
 router.post('/logout', (req, res) => {
-
+  req.logout();
+  req.session.destroy();
+  res.send('You have been successfully logged out!');
 });
 
 router.post('/login', (req, res, next) => {

@@ -10,7 +10,7 @@ const Profile = () => {
         style={{ marginBottom: "20px" }}
         grid={{ gutter: 4, xs: 2, md: 3 }}
         size="small"
-        header={<div>Followers</div>}
+        header={<div>Followings</div>}
         loadMore={<Button style={{ width: "100%" }}>more</Button>}
         bordered
         dataSource={["ab", "cde", "fgeds"]}
@@ -26,7 +26,7 @@ const Profile = () => {
         style={{ marginBottom: "20px" }}
         grid={{ gutter: 4, xs: 2, md: 3 }}
         size="small"
-        header={<div>Followings</div>}
+        header={<div>Followers</div>}
         loadMore={<Button style={{ width: "100%" }}>more</Button>}
         bordered
         dataSource={["ab", "cde", "fgeds"]}
