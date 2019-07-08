@@ -15,7 +15,7 @@ function loginAPI(loginData) {
 
 function* login() {
   try {
-    yield call(loginAPI);
+    yield call(loginAPI, action.data);
     yield put({
        type: LOG_IN_SUCCESS,
     });
