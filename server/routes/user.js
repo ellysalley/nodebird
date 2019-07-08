@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const 
+
+const db = require('../models');
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
 });
 
 // signup /api/user 
-router.post('/', async (req, res) => { 
+router.post('/', async (req, res, next) => { 
   try {
     const exUser = await db.User.findOne({
       where: {
