@@ -28,8 +28,8 @@ const NodeBird = ({ Component, store }) => {
 };
 
 NodeBird.propTypes = {
-  Component: PropTypes.elementType,
-  store: PropTypes.object
+  Component: PropTypes.elementType.isRequired,
+  store: PropTypes.object.isRequired,
 };
 
 const configureStore = (initialState, options) => {
@@ -41,7 +41,7 @@ const configureStore = (initialState, options) => {
       : compose(
           applyMiddleware(...middlewares),
           !options.isServer &&
-            window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
+            typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
             ? window.__REDUX_DEVTOOLS_EXTENSION__()
             : f => f
         );

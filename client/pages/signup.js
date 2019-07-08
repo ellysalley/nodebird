@@ -26,6 +26,7 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const [id, onChangeId] = useInput("");
+  const [username, onChangeUsername] = useInput("");
   const [password, onChangePassword] = useInput("");
   const dispatch = useDispatch();
   const { isSigningUp, me } = useSelector(state => state.user);
@@ -45,12 +46,13 @@ const Signup = () => {
       return dispatch({
         type: SIGN_UP_REQUEST,
         data: {
-          id, 
-          password
+          userId: id, 
+          password,
+          username,
         },
       });
     },
-    [password, passwordCheck]
+    [id, username, password, passwordCheck]
   );
 
   const onChangePasswordCheck = useCallback((e) => {
@@ -71,6 +73,16 @@ const Signup = () => {
             value={id}
             requred="true"
             onChange={onChangeId}
+          />
+        </div>
+        <div>
+          <label htmlFor="user-name">username</label>
+          <br />
+          <Input
+            name="user-name"
+            value={username}
+            requred="true"
+            onChange={onChangeUsername}
           />
         </div>
         <div>

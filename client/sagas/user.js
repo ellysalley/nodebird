@@ -1,9 +1,16 @@
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from '../reducers/user';
+import { 
+  LOG_IN_REQUEST, 
+  LOG_IN_SUCCESS, 
+  LOG_IN_FAILURE, 
+  SIGN_UP_REQUEST, 
+  SIGN_UP_SUCCESS, 
+  SIGN_UP_FAILURE,
+} from '../reducers/user';
 import axios from "axios";
 
-function loginAPI() {
- return axios.post('/login');
+function loginAPI(loginData) {
+ return axios.post('user/login', loginData);
 } 
 
 function* login() {
@@ -24,13 +31,13 @@ function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login)
 }
 
-function signUpAPI() {
-  return axios.post('/signup');
+function signUpAPI(signUpData) {
+  return axios.post('http://localhost:8080/api/user', signUpData);
 };
 
-function* signUp() {
+function* signUp(action) {
   try {
-    yield call(signUpAPI);
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
