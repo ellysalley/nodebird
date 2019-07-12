@@ -7,7 +7,6 @@ const dummyUser = {
 };
 
 export const initialState = {
-  isLoggedIn: false, 
   isLoggingOut: false,
   isLoggingIn: false,
   logInErrorReason: '',
@@ -59,7 +58,6 @@ export default (state = initialState, action) => {
     case LOG_IN_REQUEST: {
       return {
         ...state,
-        isLoggedIn: true,
         logInErrorReason: '',
       };
     }
@@ -67,7 +65,6 @@ export default (state = initialState, action) => {
       return {
         ...state, 
         isLoggingIn: false,
-        isLoggedIn: true,
         me: action.data,
         isLoading: false,
       }
@@ -76,7 +73,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoggingIn: false,
-        isLoggedIn: false,
         logInErrorReason: action.error,
         me: null,
       };
@@ -84,7 +80,12 @@ export default (state = initialState, action) => {
     case LOG_OUT_REQUEST: {
       return {
         ...state,
-        isLoggedIn: false,
+        isLoggingOut: true,
+      };
+    }
+    case LOG_OUT_SUCCESS: {
+      return {
+        ...state,
         me: null,
       };
     }
@@ -108,6 +109,28 @@ export default (state = initialState, action) => {
         ...state,
         isSigningUp: false,
         signUpErrorReason: action.error,
+      };
+    }
+    case LOAD_USER_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case LOAD_USER_SUCCESS: {
+      if (action.me) {
+        return {
+          ...state,
+          me: action.data,
+        };
+      }
+      return {
+        ...state,
+        userInfo: action.data,
+      };
+    }
+    case LOAD_USER_FAILURE: {
+      return {
+        ...state,
       };
     }
     default: {
