@@ -14,13 +14,16 @@ const PostForm = () => {
 
   const onSubmitForm = useCallback((e) => {
     e.preventDefault();
+    if (!text || !text.trim()) {
+      return alert('Please update the post');
+    }
     dispatch({
       type: ADD_POSTS_REQUEST, 
       data: {
-        text, 
-      }
-    })
-  }, []);
+        content: text.trim(), 
+      },
+    });
+  }, [text]);
 
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
