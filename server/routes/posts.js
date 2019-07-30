@@ -5,11 +5,13 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     const posts = await db.Post.findAll({
-      include: [{
-        model: db.User,
-        attributes: ['id', 'username'],
-      }],
-      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: db.User,
+          attributes: ['id', 'username']
+        }
+      ],
+      order: [['createdAt', 'DESC']]
     });
     res.json(posts);
   } catch (e) {

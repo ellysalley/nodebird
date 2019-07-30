@@ -31,7 +31,7 @@ app.use(expressSession({
   secret: process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true,
-    secure: true,
+    secure: false,
   },
   name: 'nbdc',
 }));
@@ -42,6 +42,6 @@ app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter);
 
-app.listen(8080, () => {
-  console.log('server is running on localhost:8080')
+app.listen(3065, () => {
+  console.log('server is running on localhost:3065')
 });

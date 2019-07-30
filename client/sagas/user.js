@@ -5,8 +5,8 @@ import {
   put,
   takeLatest,
   takeEvery
-} from "redux-saga/effects";
-import axios from "axios";
+} from 'redux-saga/effects';
+import axios from 'axios';
 import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
@@ -38,10 +38,10 @@ import {
   EDIT_USERNAME_REQUEST,
   EDIT_USERNAME_SUCCESS,
   EDIT_USERNAME_FAILURE
-} from "../reducers/user";
+} from '../reducers/user';
 
 function signUpAPI(signUpData) {
-  return axios.post("/user/", signUpData);
+  return axios.post('/user/', signUpData);
 }
 
 function* signUp(action) {
@@ -63,7 +63,7 @@ function* watchSignUp() {
 }
 
 function logInAPI(loginData) {
-  return axios.post("/user/login", loginData, {
+  return axios.post('/user/login', loginData, {
     withCredentials: true
   });
 }
@@ -89,7 +89,7 @@ function* watchLogIn() {
 
 function logOutAPI() {
   return axios.post(
-    "/user/logout",
+    '/user/logout',
     {},
     {
       withCredentials: true
@@ -116,7 +116,7 @@ function* watchLogOut() {
 }
 
 function loadUserAPI(userId) {
-  return axios.get(userId ? `/user/${userId}` : "/user/", {
+  return axios.get(userId ? `/user/${userId}` : '/user/', {
     withCredentials: true
   });
 }
@@ -283,7 +283,7 @@ function* watchRemoveFollower() {
 
 function editUsernameAPI(username) {
   return axios.patch(
-    "/user/username",
+    '/user/username',
     { username },
     {
       withCredentials: true
