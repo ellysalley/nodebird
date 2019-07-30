@@ -54,7 +54,7 @@ const PostCard = ({ post }) => {
         extra={<Button>Follow</Button>}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.username[0]}</Avatar>}
+          avatar={<Link href={`/user/${post.User.id}`}><a><Avatar>{post.User.username[0]}</Avatar></a></Link>}
           title={post.User.username}
           description={
             <div>
@@ -94,7 +94,7 @@ const PostCard = ({ post }) => {
               <li>
                 <Comment
                   author={item.User.username}
-                  avatar={<Avatar>{item.User.username[0]}</Avatar>}
+                  avatar={<Link href={`/user/${post.User.id}`}><a><Avatar>{item.User.username[0]}</Avatar></a></Link>}
                   content={item.content}
                 />
               </li>
