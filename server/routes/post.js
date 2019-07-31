@@ -1,9 +1,10 @@
 const express = require('express');
 const db = require('../models');
 
+const { isLoggedIn } = require('./middleware');
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/', isLoggedIn, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/#[^\s]+/g);
     const newPost = await db.Post.create({

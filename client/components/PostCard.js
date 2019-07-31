@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Card, Icon, Button, Avatar, Input, List, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_COMMENT_REQUEST } from '../reducers/post';
+import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST } from '../reducers/post';
 
 const PostCard = ({ post }) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -14,6 +14,12 @@ const PostCard = ({ post }) => {
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened(prev => !prev);
+    if (!commentFormOpened) {
+      dispatch({
+        type: LOAD_COMMENTS_REQUEST,
+        data: post.id,
+      });
+    }
   }, []);
 
   const onSubmitComment = useCallback(
@@ -25,11 +31,12 @@ const PostCard = ({ post }) => {
       return dispatch({
         type: ADD_COMMENT_REQUEST,
         data: {
-          postId: post.id
-        }
+          postId: post.id,
+          content: commentText,
+        },
       });
     },
-    [me && me.id]
+    [me && me.id, commentText]
   );
 
   useEffect(() => {
@@ -54,14 +61,19 @@ const PostCard = ({ post }) => {
         extra={<Button>Follow</Button>}
       >
         <Card.Meta
-          avatar={<Link href={`/user/${post.User.id}`}><a><Avatar>{post.User.username[0]}</Avatar></a></Link>}
+          avatar={(
+            <Link href={{ pathname: '/user', query: { id: post.User.id } }} as={`/user/${post.User.id}`}>
+              <a><Avatar>{post.User.username[0]}</Avatar></a>
+            </Link>
+          )}
           title={post.User.username}
           description={
             <div>
               {post.content.split(/(#[^\s]+)/g).map(v => {
                 if (v.match(/#[^\s]+/)) {
                   return (
-                    <Link href="/hashtag">
+                    <Link href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }} as={`/hashtag/${v.slice(1)}`}
+                          key={v}>
                       <a>{v}</a>
                     </Link>
                   );
@@ -82,7 +94,7 @@ const PostCard = ({ post }) => {
                 onChange={onChangeCommentText}
               />
             </Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isAddingComment}>
               comment
             </Button>
           </Form>
@@ -94,7 +106,11 @@ const PostCard = ({ post }) => {
               <li>
                 <Comment
                   author={item.User.username}
-                  avatar={<Link href={`/user/${post.User.id}`}><a><Avatar>{item.User.username[0]}</Avatar></a></Link>}
+                  avatar={(
+                  <Link href={{ pathname: '/user', query: { id: item.User.id } }} as={`/user/${item.User.id}`}>
+                    <a><Avatar>{item.User.username[0]}</Avatar></a>
+                  </Link>
+                  )}
                   content={item.content}
                 />
               </li>
@@ -112,7 +128,7 @@ PostCard.propTypes = {
     content: PropTypes.string,
     img: PropTypes.string,
     createdAt: PropTypes.object
-  })
+  }).isRequired,
 };
 
 export default PostCard;

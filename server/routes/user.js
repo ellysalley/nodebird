@@ -6,10 +6,7 @@ const { isLoggedIn } = require('./middleware');
 const db = require('../models');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  if (!req.user) {
-    return res.status(401).send('Login required');
-  }
+router.get('/', isLoggedIn, (req, res) => {
   const user = Object.assign({}, req.user.toJSON());
   delete user.password;
   return res.json(user);
@@ -54,7 +51,7 @@ router.get('/:id', async (req, res, next) => {
         attributes: ['id'],
       }, {
         model: db.User,
-        as: 'Followings',
+        as: 'Followers',
         attributes: ['id'],
       }],
       attributes: ['id', 'username'],

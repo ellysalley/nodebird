@@ -7,7 +7,7 @@ import PostCard from '../components/PostCard';
 const Hashtag = ({ tag }) => {
   console.log(tag);
   const dispatch = useDispatch();
-  const { mainPosts } = useSelector(state => state.user);
+  const { mainPosts } = useSelector(state => state.post);
 
   useEffect(() => {
     dispatch({
@@ -16,9 +16,11 @@ const Hashtag = ({ tag }) => {
     });
   }, []);
   return (
-    <div>{mainPosts.map(c => (
-      <PostCard key={+c.createdAt} post={c} />
-    ))}</div>
+    <div>
+      {mainPosts.map(c => (
+        <PostCard key={+c.createdAt} post={c} />
+      ))}
+    </div>
   );
 };
 

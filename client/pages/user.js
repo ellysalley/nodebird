@@ -60,8 +60,8 @@ User.propTypes = {
   id: Proptypes.number.isRequired
 };
 
-Hashtag.getInitialProps = async context => {
-  console.log('hashtag getInitialProps', context.guery.id);
+User.getInitialProps = async (context) => {
+  console.log('user getInitialProps', context.guery.id);
   return { id: parseInt(context.query.id, 10) };
 };
 
