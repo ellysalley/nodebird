@@ -93,7 +93,7 @@ export default (state = initialState, action) => {
         v => v.id === action.data.postId
       );
       const post = state.mainPosts[postIndex];
-      const Comments = [...post.Comments, action.data.comments];
+      const Comments = [...post.Comments, action.data.comment];
       const mainPosts = [...state.mainPosts];
       mainPosts[postIndex] = { ...post, Comments };
       return {
@@ -108,6 +108,19 @@ export default (state = initialState, action) => {
         ...state,
         isAddingComment: false,
         addCommentErrorReason: action.error
+      };
+    }
+    case LOAD_COMMENTS_SUCCESS: {
+      const postIndex = state.mainPosts.findIndex(
+        v => v.id === action.data.postId
+      );
+      const post = state.mainPosts[postIndex];
+      const Comments = action.data.comments;
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = { ...post, Comments };
+      return {
+        ...state,
+        mainPosts,
       };
     }
     case LOAD_MAIN_POSTS_REQUEST:

@@ -17,7 +17,7 @@ const PostCard = ({ post }) => {
     if (!commentFormOpened) {
       dispatch({
         type: LOAD_COMMENTS_REQUEST,
-        data: post.id,
+        data: post.id
       });
     }
   }, []);
@@ -32,8 +32,8 @@ const PostCard = ({ post }) => {
         type: ADD_COMMENT_REQUEST,
         data: {
           postId: post.id,
-          content: commentText,
-        },
+          content: commentText
+        }
       });
     },
     [me && me.id, commentText]
@@ -61,19 +61,30 @@ const PostCard = ({ post }) => {
         extra={<Button>Follow</Button>}
       >
         <Card.Meta
-          avatar={(
-            <Link href={{ pathname: '/user', query: { id: post.User.id } }} as={`/user/${post.User.id}`}>
-              <a><Avatar>{post.User.username[0]}</Avatar></a>
+          avatar={
+            <Link
+              href={{ pathname: '/user', query: { id: post.User.id } }}
+              as={`/user/${post.User.id}`}
+            >
+              <a>
+                <Avatar>{post.User.username[0]}</Avatar>
+              </a>
             </Link>
-          )}
+          }
           title={post.User.username}
           description={
             <div>
               {post.content.split(/(#[^\s]+)/g).map(v => {
                 if (v.match(/#[^\s]+/)) {
                   return (
-                    <Link href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }} as={`/hashtag/${v.slice(1)}`}
-                          key={v}>
+                    <Link
+                      href={{
+                        pathname: '/hashtag',
+                        query: { tag: v.slice(1) }
+                      }}
+                      as={`/hashtag/${v.slice(1)}`}
+                      key={v}
+                    >
                       <a>{v}</a>
                     </Link>
                   );
@@ -106,11 +117,16 @@ const PostCard = ({ post }) => {
               <li>
                 <Comment
                   author={item.User.username}
-                  avatar={(
-                  <Link href={{ pathname: '/user', query: { id: item.User.id } }} as={`/user/${item.User.id}`}>
-                    <a><Avatar>{item.User.username[0]}</Avatar></a>
-                  </Link>
-                  )}
+                  avatar={
+                    <Link
+                      href={{ pathname: '/user', query: { id: item.User.id } }}
+                      as={`/user/${item.User.id}`}
+                    >
+                      <a>
+                        <Avatar>{item.User.username[0]}</Avatar>
+                      </a>
+                    </Link>
+                  }
                   content={item.content}
                 />
               </li>
@@ -128,7 +144,7 @@ PostCard.propTypes = {
     content: PropTypes.string,
     img: PropTypes.string,
     createdAt: PropTypes.object
-  }).isRequired,
+  }).isRequired
 };
 
 export default PostCard;
