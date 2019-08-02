@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Avatar, Button, Card, Comment, Form, Icon, Input, List } from 'antd';
 import Link from 'next/link';
-import { Card, Icon, Button, Avatar, Input, List, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST } from '../reducers/post';
@@ -26,7 +26,7 @@ const PostCard = ({ post }) => {
     e => {
       e.preventDefault();
       if (!me) {
-        return alert('need to login');
+        return alert('Login Needed.');
       }
       return dispatch({
         type: ADD_COMMENT_REQUEST,
@@ -50,7 +50,7 @@ const PostCard = ({ post }) => {
   return (
     <div>
       <Card
-        key={+post.createAt}
+        key={+post.createdAt}
         cover={post.img && <img alt="example" src={post.img} />}
         actions={[
           <Icon type="retweet" key="retweet" />,
@@ -110,7 +110,7 @@ const PostCard = ({ post }) => {
             </Button>
           </Form>
           <List
-            header={`${post.Comments ? post.Comments.length : 0} Comments`}
+            header={`${post.Comments ? post.Comments.length : 0} comments`}
             itemLayout="horizontal"
             dataSource={post.Comments || []}
             renderItem={item => (
