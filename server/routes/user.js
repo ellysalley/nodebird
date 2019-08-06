@@ -186,4 +186,25 @@ router.post('/:id/following', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.get('/:id/posts', async (req, res, next) => {
+  try {
+    const posts = await db.Post.findAll({
+      where: {
+        UserId: parseInt(req.params.id, 10),
+        RetweetId: null,
+      }, 
+      include: [{
+        model: db.User,
+        attributes: ['id', 'username'],
+      }, {
+        model: db.Image,
+      }],
+    });
+    res.json(posts);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
 module.exports = router;
