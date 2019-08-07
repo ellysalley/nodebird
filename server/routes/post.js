@@ -59,10 +59,16 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
       where: { id: newPost.id },
       include: [
         {
-          model: db.User
+          model: db.User,
+          attributes: ['id', 'username'],
         },
         {
           model: db.Image
+        },
+        {
+          model: db.User,
+          as: 'Likers',
+          attributes: ['id'],
         }
       ]
     });
@@ -75,6 +81,38 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
 
 router.post('/images', upload.array('image'), (req, res) => {
   res.json(req.files.map(v => v.filename));
+});
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({
+      where: { id: req.params.id },
+      include: [{
+        model: db.User,
+        attributes: ['id', 'username'],
+      }, {
+        model: db.Image,
+      }],
+    });
+    res.json(post);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.delete('/:id', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id } });
+    if (!post) {
+      return res.status(404).send('Post does not exist.');
+    }
+    await db.Post.destroy({ where: { id: req.params.id } });
+    res.send(req.params.id);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
 });
 
 router.get('/:id/comments', async (req, res, next) => {
@@ -126,6 +164,35 @@ router.post('/:id/comment', isLoggedIn, async (req, res, next) => {
       ]
     });
     res.json(comment);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.post('/:id/like', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id }});
+    if (!post) {
+      return res.status(404).send('Post does not exist.');
+    }
+    await post.addLiker(req.user.id);
+    res.json({ userId: req.user.id });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+
+router.delete('/:id/like', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id } });
+    if (!post) {
+      return res.status(404).send('Post does not exist.');
+    }
+    await post.removeLiker(req.user.id);
+    res.json({ userId: req.user.id });
   } catch (e) {
     console.error(e);
     next(e);

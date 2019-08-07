@@ -41,20 +41,24 @@ router.get('/:id', async (req, res, next) => {
   try {
     const user = await db.User.findOne({
       where: { id: parseInt(req.params.id, 10) },
-      include: [{
-        model: db.Post,
-        as: 'Posts',
-        attributes: ['id'],
-      }, {
-        model: db.User,
-        as: 'Followings',
-        attributes: ['id'],
-      }, {
-        model: db.User,
-        as: 'Followers',
-        attributes: ['id'],
-      }],
-      attributes: ['id', 'username'],
+      include: [
+        {
+          model: db.Post,
+          as: 'Posts',
+          attributes: ['id']
+        },
+        {
+          model: db.User,
+          as: 'Followings',
+          attributes: ['id']
+        },
+        {
+          model: db.User,
+          as: 'Followers',
+          attributes: ['id']
+        }
+      ],
+      attributes: ['id', 'username']
     });
     const jsonUser = user.toJSON();
     jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length : 0;
@@ -82,7 +86,7 @@ router.post('/login', (req, res, next) => {
     if (info) {
       return res.status(401).send(info.reason);
     }
-    return req.login(user, async (loginErr) => {
+    return req.login(user, async loginErr => {
       try {
         if (loginErr) {
           return next(loginErr);
@@ -120,10 +124,10 @@ router.post('/login', (req, res, next) => {
 router.get('/:id/followings', isLoggedIn, async (req, res, next) => {
   try {
     const user = await db.User.findOne({
-      where: { id: parseInt(req.params.id, 10) },
+      where: { id: parseInt(req.params.id, 10) }
     });
     const followings = await user.getFollowings({
-      attributes: ['id', 'username'],
+      attributes: ['id', 'username']
     });
     res.json(followings);
   } catch (e) {
@@ -135,10 +139,10 @@ router.get('/:id/followings', isLoggedIn, async (req, res, next) => {
 router.get('/:id/followers', isLoggedIn, async (req, res, next) => {
   try {
     const user = await db.User.findOne({
-      where: { id: parseInt(req.params.id, 10) },
+      where: { id: parseInt(req.params.id, 10) }
     });
     const followers = await user.getFollowers({
-      attributes: ['id', 'username'],
+      attributes: ['id', 'username']
     });
     res.json(followers);
   } catch (e) {
@@ -150,7 +154,7 @@ router.get('/:id/followers', isLoggedIn, async (req, res, next) => {
 router.delete('/:id/follower', isLoggedIn, async (req, res, next) => {
   try {
     const me = await db.User.findOne({
-      where: { id: req.user.id },
+      where: { id: req.user.id }
     });
     await me.removeFollower(req.params.id);
     res.send(req.params.id);
@@ -160,12 +164,12 @@ router.delete('/:id/follower', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/:id/following', isLoggedIn, async (req, res, next) => {
+router.post('/:id/follow', isLoggedIn, async (req, res, next) => {
   try {
     const me = await db.User.findOne({
-      where: { id: req.user.id },
+      where: { id: req.user.id }
     });
-    await me.removeFollowing(req.params.id);
+    await me.addFollowing(req.params.id);
     res.send(req.params.id);
   } catch (e) {
     console.error(e);
@@ -173,12 +177,12 @@ router.delete('/:id/following', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post('/:id/following', isLoggedIn, async (req, res, next) => {
+router.delete('/:id/follow', isLoggedIn, async (req, res, next) => {
   try {
     const me = await db.User.findOne({
-      where: { id: req.user.id },
+      where: { id: req.user.id }
     });
-    await me.addFollowing(req.params.id);
+    await me.removeFollowing(req.params.id);
     res.send(req.params.id);
   } catch (e) {
     console.error(e);
@@ -191,14 +195,23 @@ router.get('/:id/posts', async (req, res, next) => {
     const posts = await db.Post.findAll({
       where: {
         UserId: parseInt(req.params.id, 10),
-        RetweetId: null,
-      }, 
-      include: [{
-        model: db.User,
-        attributes: ['id', 'username'],
-      }, {
-        model: db.Image,
-      }],
+        RetweetId: null
+      },
+      include: [
+        {
+          model: db.User,
+          attributes: ['id', 'username']
+        },
+        {
+          model: db.Image
+        },
+        {
+          model: db.User,
+          through: 'Like',
+          as: 'Likers',
+          attributes: ['id']
+        }
+      ]
     });
     res.json(posts);
   } catch (e) {
