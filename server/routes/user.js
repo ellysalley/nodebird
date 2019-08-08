@@ -211,7 +211,7 @@ router.get('/:id/posts', async (req, res, next) => {
           as: 'Likers',
           attributes: ['id']
         }
-      ]
+      ],
     });
     res.json(posts);
   } catch (e) {
