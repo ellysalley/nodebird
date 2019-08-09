@@ -81,7 +81,7 @@ const PostForm = () => {
           htmlType="submit"
           loading={isAddingPost}
         >
-          Twit
+          Tweet
         </Button>
       </div>
       <div>

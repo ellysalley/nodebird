@@ -44,11 +44,11 @@ function* addPost(action) {
   try {
     const result = yield call(addPostAPI, action.data);
     yield put({
-      type: ADD_POST_SUCCESS,
+      type: ADD_POST_SUCCESS, // update data on post reducer
       data: result.data
     });
     yield put({
-      type: ADD_POST_TO_ME,
+      type: ADD_POST_TO_ME, // update data on user reducer
       data: result.data.id
     });
   } catch (e) {

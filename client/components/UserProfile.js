@@ -17,9 +17,9 @@ const UserProfile = () => {
   return (
     <Card
       actions={[
-        <Link href="/profile" key="twit">
+        <Link href="/profile" key="Tweet">
           <a>
-            <div>Twit<br />{me.Posts.length}</div>
+            <div>Tweet<br />{me.Posts.length}</div>
           </a>
         </Link>,
         <Link href="/profile" key="following">

@@ -177,9 +177,9 @@ export default (state = initialState, action) => {
     case ADD_POST_TO_ME: {
       return {
         ...state,
-        me: {
+        me: { 
           ...state.me,
-          Posts: [{ id: action.data }, state.me.Posts]
+          Posts: [{ id: action.data }, ...state.me.Posts]
         }
       };
     }
