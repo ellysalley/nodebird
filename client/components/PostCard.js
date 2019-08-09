@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Avatar, Button, Card, Comment, Form, Icon, Input, List } from 'antd';
+import { Avatar, Button, Card, Comment, Form, Icon, Input, List, Popover } from 'antd';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import {
 } from '../reducers/post';
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
+import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../reducers/user';
 
 const PostCard = ({ post }) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -84,6 +85,20 @@ const PostCard = ({ post }) => {
     });
   }, [me && me.id, post && post.id]);
 
+  const onFollow = useCallback(userId => () => {
+    dispatch({
+      type: FOLLOW_USER_REQUEST,
+      data: userId,
+    });
+  }, []);
+
+  const onUnfollow = useCallback(userId => () => {
+    dispatch({
+      type: UNFOLLOW_USER_REQUEST,
+      data: userId,
+    });
+  }, []);
+  
   return (
     <div>
       <Card
@@ -101,19 +116,49 @@ const PostCard = ({ post }) => {
             onClick={onToggleLike}
           />,
           <Icon type="message" key="message" onClick={onToggleComment} />,
-          <Icon type="ellipsis" key="ellipsis" />
+          <Popover
+            key="ellipsis"
+            content={
+              <Button.Group>
+                {me && post.UserId === me.id ? (
+                  <>
+                    <Button>Edit</Button>
+                    <Button type="danger">Delete</Button>
+                  </>
+                ) : (
+                  <Button>Report Tweet</Button>
+                )}
+              </Button.Group>
+            }
+          >
+            <Icon type="ellipsis" />
+          </Popover>
         ]}
         title={post.RetweetId ? `${post.User.username} retweeted.` : null}
-        extra={<Button>Follow</Button>}
+        extra={
+          !me || post.User.id === me.id ? null 
+          : me.Followings && me.Followings.find(v => v.id === post.User.id) ? (
+            <Button onClick={onUnfollow(post.User.id)}>Unfollow</Button>
+          ) : (
+            <Button onClick={onFollow(post.User.id)}>Follow</Button>
+          )
+        }
       >
         {post.RetweetId && post.Retweet ? (
           <Card
-            cover={post.Retweet.Images[0] && <PostImages images={post.Retweet.Images} />}
-            >
+            cover={
+              post.Retweet.Images[0] && (
+                <PostImages images={post.Retweet.Images} />
+              )
+            }
+          >
             <Card.Meta
               avatar={
                 <Link
-                  href={{ pathname: '/user', query: { id: post.Retweet.User.id } }}
+                  href={{
+                    pathname: '/user',
+                    query: { id: post.Retweet.User.id }
+                  }}
                   as={`/user/${post.Retweet.User.id}`}
                 >
                   <a>
