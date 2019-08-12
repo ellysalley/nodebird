@@ -211,9 +211,26 @@ router.get('/:id/posts', async (req, res, next) => {
           as: 'Likers',
           attributes: ['id']
         }
-      ],
+      ]
     });
     res.json(posts);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.patch('/username', isLoggedIn, async (req, res, next) => {
+  try {
+    await db.User.update(
+      {
+        username: req.body.username
+      },
+      {
+        where: { id: req.user.id }
+      }
+    );
+    res.send(req.body.username);
   } catch (e) {
     console.error(e);
     next(e);

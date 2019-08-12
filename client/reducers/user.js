@@ -177,7 +177,7 @@ export default (state = initialState, action) => {
     case ADD_POST_TO_ME: {
       return {
         ...state,
-        me: { 
+        me: {
           ...state.me,
           Posts: [{ id: action.data }, ...state.me.Posts]
         }
@@ -237,7 +237,9 @@ export default (state = initialState, action) => {
     }
     case EDIT_USERNAME_REQUEST: {
       return {
-        ...state
+        ...state,
+        isEditingUsername: true,
+        editUsernameErrorReason: ''
       };
     }
     case EDIT_USERNAME_SUCCESS: {
@@ -254,7 +256,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isEditingUsername: false,
-        editUsernameErrorReason: action.data
+        editUsernameErrorReason: ''
       };
     }
     default: {
