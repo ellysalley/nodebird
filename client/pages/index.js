@@ -27,4 +27,11 @@ const Home = () => {
   );
 };
 
+Home.getInitialProps = async (context) => {
+  console.log(Object.keys(context));
+  context.store.dispatch({
+      type: LOAD_MAIN_POSTS_REQUEST,
+  });
+};
+
 export default Home;

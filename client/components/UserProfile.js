@@ -17,7 +17,7 @@ const UserProfile = () => {
   return (
     <Card
       actions={[
-        <Link href="/profile" key="Tweet">
+        <Link href="/profile" key="tweet">
           <a>
             <div>Tweet<br />{me.Posts.length}</div>
           </a>
