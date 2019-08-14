@@ -8,7 +8,8 @@ import {
   LOAD_COMMENTS_REQUEST,
   UNLIKE_POST_REQUEST,
   LIKE_POST_REQUEST,
-  RETWEET_REQUEST
+  RETWEET_REQUEST,
+  REMOVE_POST_REQUEST
 } from '../reducers/post';
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
@@ -99,6 +100,13 @@ const PostCard = ({ post }) => {
     });
   }, []);
   
+  const onRemovePost = useCallback(userId => () => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: userId,
+    });
+  }, []);
+
   return (
     <div>
       <Card
@@ -123,7 +131,7 @@ const PostCard = ({ post }) => {
                 {me && post.UserId === me.id ? (
                   <>
                     <Button>Edit</Button>
-                    <Button type="danger">Delete</Button>
+                    <Button type="danger" onClick={onRemovePost(post.id)}>Delete</Button>
                   </>
                 ) : (
                   <Button>Report Tweet</Button>

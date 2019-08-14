@@ -33,7 +33,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (me) {
-      alert('logged in, go to main page.');
+      alert('Already logged in, go to main page.');
       Router.push('/');
     }
   }, [me && me.id]);
@@ -61,6 +61,10 @@ const Signup = () => {
     },
     [password]
   );
+
+  if (me) {
+    return null;
+  }
 
   return (
     <>
