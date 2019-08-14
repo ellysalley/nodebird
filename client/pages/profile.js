@@ -13,7 +13,7 @@ import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { followingList, followerList } = useSelector(state => state.user);
+  const { followingList, followerList, hasMoreFollower, hasMoreFollowing } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
 
   const onUnfollow = useCallback(
@@ -36,6 +36,20 @@ const Profile = () => {
     []
   );
 
+  const loadMoreFollowings = useCallback(() => {
+    dispatch({
+      type: LOAD_FOLLOWINGS_REQUEST,
+      offset: followingList.length,
+    });
+  }, []);
+
+  const loadMoreFollowers = useCallback(() => {
+    dispatch({
+      type: LOAD_FOLLOWERS_REQUEST,
+      offset: followerList.length,
+    });
+  }, []);
+
   return (
     <div>
       <UsernameEditForm />
@@ -44,7 +58,7 @@ const Profile = () => {
         grid={{ gutter: 4, xs: 2, md: 3 }}
         size="small"
         header={<div>Followings</div>}
-        loadMore={<Button style={{ width: '100%' }}>more</Button>}
+        loadMore={hasMoreFollowing && <Button style={{ width: '100%' }} onClick={loadMoreFollowings}>more</Button>}
         bordered
         dataSource={followingList}
         renderItem={item => (
@@ -64,7 +78,7 @@ const Profile = () => {
         grid={{ gutter: 4, xs: 2, md: 3 }}
         size="small"
         header={<div>Followers</div>}
-        loadMore={<Button style={{ width: '100%' }}>more</Button>}
+        loadMore={hasMoreFollower && <Button style={{ width: '100%' }} onClick={loadMoreFollowers}>more</Button>}
         bordered
         dataSource={followerList}
         renderItem={item => (
