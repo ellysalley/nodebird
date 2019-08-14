@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Button, List, Card, Icon } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import UsernameEditForm from '../components/UsernameEditForm';
@@ -9,24 +9,12 @@ import {
   UNFOLLOW_USER_REQUEST,
   REMOVE_FOLLOWER_REQUEST
 } from '../reducers/user';
+import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { me, followingList, followerList } = useSelector(state => state.user);
+  const { followingList, followerList } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
-
-  useEffect(() => {
-    if (me) {
-      dispatch({
-        type: LOAD_FOLLOWERS_REQUEST,
-        data: me.id
-      });
-      dispatch({
-        type: LOAD_FOLLOWINGS_REQUEST,
-        data: me.id
-      });
-    }
-  }, [me && me.id]);
 
   const onUnfollow = useCallback(
     userId => () => {
@@ -102,6 +90,22 @@ const Profile = () => {
       </div>
     </div>
   );
+};
+
+Profile.getInitialProps = async context => {
+  const state = context.store.getState();
+  context.store.dispatch({
+    type: LOAD_FOLLOWERS_REQUEST,
+    data: state.user.me && state.user.me.id
+  });
+  context.store.dispatch({
+    type: LOAD_FOLLOWINGS_REQUEST,
+    data: state.user.me && state.user.me.id
+  });
+  context.store.dispatch({
+    type: LOAD_USER_POSTS_REQUEST,
+    data: state.user.me && state.user.me.id
+  });
 };
 
 export default Profile;
